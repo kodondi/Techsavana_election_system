@@ -1,0 +1,33 @@
+{% extends TEMPLATE_BASE %}
+
+{% block title %}Compute Encryted Tally for {{election.name}}{% endblock %}
+
+{% block content %}
+  <h2 class="title">Compute Tally for survey/poll: {{election.name}}</h2>
+
+<div id="instructions">
+{% if election.num_cast_votes %}
+<p>
+    You are about to compute the encrypted tally for poll/survey<b>{{election.name}}</b>.
+</p>
+
+<p>
+    Once you do this, poll participants  will no longer be able to participate in the survey/poll.
+</p>
+
+<form method="post" action="" onsubmit="alert('ok, tally has begun')" class="pretty">
+<input type="hidden" name="csrf_token" value="{{csrf_token}}" />
+    
+<input class="button" type="submit" value="compute encrypted tally!" />
+<button onclick="document.location='{% url "election@view" election.uuid %}'; return false;">never mind</button>
+</form>
+{% else %}
+<p>
+No polling  has taken place  in this survey. At least one poll/survey must be happen before you compute the tally.<br /><br />
+<a href="{% url "election@view" election.uuid %}">back to election</a>
+</p>
+{% endif %}
+</div>
+
+<br /><br />
+{% endblock %}
